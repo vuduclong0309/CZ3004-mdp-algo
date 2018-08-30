@@ -23,5 +23,20 @@ public class MapIOProcessor {
 			e.printStackTrace();
 		}
 	}
-	 
+	
+	/*
+	 * Convert binary to hexadecimal representation to be displayed
+	 */
+	public String binToHex(String value) {
+		int deci = 0;
+		
+		try {
+	
+			deci = Integer.parseInt(value, 2);
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return Integer.toHexString(deci);
+	}
 }

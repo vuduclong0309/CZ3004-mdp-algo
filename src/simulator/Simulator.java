@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 public class Simulator {
-	private final static boolean physicalRun = false;
+	private static final boolean PHYSICALRUN = false;
 	
 	private static JFrame simulatorFrame = null;
 	private static JPanel mapPanel = null;
@@ -20,7 +20,7 @@ public class Simulator {
 		}*/
 		
 		launch();
-
+		
 	}
 	private static void launch() {
 		
@@ -34,7 +34,7 @@ public class Simulator {
 		mapPanel = new JPanel(new CardLayout());
 		buttonPanel = new JPanel(new FlowLayout());
 		
-		if (!physicalRun)
+		if (!PHYSICALRUN)
 			virtualRun();
 		/*else
 			physicalRun();*/
