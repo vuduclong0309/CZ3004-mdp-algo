@@ -1,6 +1,7 @@
 package utils;
 import simulator.Map;
 
+
 import java.io.*;
 
 public class MapIOProcessor {
@@ -8,15 +9,27 @@ public class MapIOProcessor {
 	/* 
 	 * Reads input text file from storage that uses binary to indicate if a cell on the arena is an obstacle.
 	 * */
-	public static void read(String filename, Map map) {
+	public static void readFile(String filename, Map map) {
 		try {
 			InputStream in = new FileInputStream("arenas/" + filename + ".txt");
 			BufferedReader bf = new BufferedReader(new InputStreamReader(in));
 			
+			String data = bf.readLine();
 			StringBuilder sb = new StringBuilder();
 			while (bf.readLine() != null) {
 				sb.append(bf.readLine());
+				data = bf.readLine();
 			}
+			
+			String binData = sb.toString();
+			int binDataPtr = 0;
+			for (int r = 0 ; r < Map.MAPROWS ;r++) {
+				for (int c = 0; c < Map.MAPCOLS; c++) {
+					if(binData.charAt(binDataPtr) == '1') map.set
+					
+				}
+			}
+			bf.close();
 		
 		}
 		catch (IOException e) {
@@ -39,4 +52,12 @@ public class MapIOProcessor {
 		}
 		return Integer.toHexString(deci);
 	}
+	
+	/*
+	public static String[] mapDescriptor() {
+		String[] mapDesc = new String[2];
+		
+		return map
+	}
+	*/
 }

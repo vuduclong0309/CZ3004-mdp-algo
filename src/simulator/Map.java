@@ -14,7 +14,7 @@ public class Map {
 	public static final int GOAL_COL_NO = 13;
 	
 	private Robot robot;
-	private GridCell[][] grid;
+	private GridCell[][] cells;
 	
 	public Map(Robot robot) {
 		
@@ -30,12 +30,57 @@ public class Map {
 		for (int r=0;r<MAPROWS;r++) {
 			for (int c=0;c<MAPCOLS;c++) {
 				if (r <=(GOAL_ROW_NO + 1) && r >= (GOAL_ROW_NO - 1) && c <= (GOAL_COL_NO + 1) && c >= (GOAL_COL_NO - 1)) {
-					grid[r][c].setExplored(true);
+					cells[r][c].setExplored(true);
 				}
 				else
-					grid[r][c].setExplored(false);
+					cells[r][c].setExplored(false);
 				
 			}
 		}
 	}
+	
+	 /**
+     * Sets a cell as an obstacle and the surrounding cells as virtual walls or resets the cell and surrounding
+     * virtual walls.
+     */
+    public void setObstacleCell(int row, int col, boolean obstacle) {
+        if (obstacle && (startZone(row, col) || inGoalZone(row, col)))
+            return;
+
+        cells[row][col].setIsObstacle(obstacle);
+
+        if (row >= 1) {
+        	cells[row - 1][col].setVirtualWall(obstacle);            // bottom cell
+
+            if (col < MapConstants.MAP_COLS - 1) {
+            	cells[row - 1][col + 1].setVirtualWall(obstacle);    // bottom-right cell
+            }
+
+            if (col >= 1) {
+            	cells[row - 1][col - 1].setVirtualWall(obstacle);    // bottom-left cell
+            }
+        }
+
+        if (row < MAPROWS - 1) {
+        	cells[row + 1][col].setVirtualWall(obstacle);            // top cell
+
+            if (col < MapConstants.MAP_COLS - 1) {
+                grid[row + 1][col + 1].setVirtualWall(obstacle);    // top-right cell
+            }
+
+            if (col >= 1) {
+                grid[row + 1][col - 1].setVirtualWall(obstacle);    // top-left cell
+            }
+        }
+
+        if (col >= 1) {
+            grid[row][col - 1].setVirtualWall(obstacle);            // left cell
+        }
+
+        if (col < MAPCOLS - 1) {
+            grid[row][col + 1].setVirtualWall(obstacle);            // right cell
+        }
+    }
+	
+	
 }

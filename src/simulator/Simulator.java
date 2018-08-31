@@ -1,5 +1,7 @@
 package simulator;
 
+import static utils.MapIOProcessor.readFile;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -8,6 +10,9 @@ import javax.swing.*;
 
 public class Simulator {
 	private static final boolean PHYSICALRUN = false;
+	
+	private static Map actualMap = null;
+	private static Map exploredMap = null;
 	
 	private static JFrame simulatorFrame = null;
 	private static JPanel mapPanel = null;
@@ -26,7 +31,7 @@ public class Simulator {
 		
 		//Set up JFrame and its size
 		simulatorFrame = new JFrame();
-		simulatorFrame.setTitle("Group 15 Simulator");
+		simulatorFrame.setTitle("CZ3004 MDP Group 15 Simulator");
 		simulatorFrame.setSize(620, 780);
 		simulatorFrame.setVisible(true);
 		
@@ -34,8 +39,11 @@ public class Simulator {
 		mapPanel = new JPanel(new CardLayout());
 		buttonPanel = new JPanel(new FlowLayout());
 		
-		if (!PHYSICALRUN)
+		if (!PHYSICALRUN) {
+			mapPanel.add("ACTUAL_MAP", actualMap);
+			
 			virtualRun();
+		}
 		/*else
 			physicalRun();*/
 		//create buttons and add into JPanel
@@ -61,10 +69,10 @@ public class Simulator {
                 loadMapDialog.setSize(400, 100);
                 loadMapDialog.setLayout(new FlowLayout());
 
-                final JTextField tbLoadMap = new JTextField(15);
+                final JTextField tbMapName = new JTextField(15);
                 JButton btnLoad = new JButton("Load");
                 loadMapDialog.add(new JLabel("File Name: "));
-                loadMapDialog.add(tbLoadMap);
+                loadMapDialog.add(tbMapName);
                 loadMapDialog.add(btnLoad);
                 loadMapDialog.setLocationRelativeTo(simulatorFrame);
                 loadMapDialog.setVisible(true);
@@ -72,6 +80,8 @@ public class Simulator {
                 btnLoad.addMouseListener(new MouseAdapter() {
                 	public void mousePressed(MouseEvent e) {
                 		loadMapDialog.setVisible(false);
+                		readFile(tbMapName.getText(),actualMap);
+                		mapPanel.add(comp)
                 		
                 	}
                 	
