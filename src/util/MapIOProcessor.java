@@ -1,4 +1,4 @@
-package utils;
+package util;
 import simulator.Map;
 
 
@@ -25,7 +25,7 @@ public class MapIOProcessor {
 			int binDataPtr = 0;
 			for (int r = 0 ; r < Map.MAPROWS ;r++) {
 				for (int c = 0; c < Map.MAPCOLS; c++) {
-					if(binData.charAt(binDataPtr) == '1') map.set
+					//if(binData.charAt(binDataPtr) == '1') map.setObstacleNVirtual
 					
 				}
 			}

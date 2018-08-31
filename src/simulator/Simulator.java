@@ -1,7 +1,9 @@
 package simulator;
 
-import static utils.MapIOProcessor.readFile;
 
+import static util.MapIOProcessor.readFile;
+
+import robot.Robot;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,6 +13,8 @@ import javax.swing.*;
 public class Simulator {
 	private static final boolean PHYSICALRUN = false;
 	
+	private static Robot robot;
+	
 	private static Map actualMap = null;
 	private static Map exploredMap = null;
 	
@@ -19,20 +23,25 @@ public class Simulator {
 	private static JPanel buttonPanel = null;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		/*if (!realRun) {
-			
-		}*/
+		/*if (PHYSICALRUN)
+			com.openConnection();*/
+		robot = new Robot();
 		
-		launch();
+		if (!PHYSICALRUN) {
+			actualMap = new Map(robot);
+			actualMap.setAllUnexplored();
+		}
+			
+		launchSimulator();
 		
 	}
-	private static void launch() {
+	private static void launchSimulator() {
 		
 		//Set up JFrame and its size
 		simulatorFrame = new JFrame();
-		simulatorFrame.setTitle("CZ3004 MDP Group 15 Simulator");
+		simulatorFrame.setTitle("CZ3004 MDP AY18/19S1 Group 15 Simulator");
 		simulatorFrame.setSize(620, 780);
+		simulatorFrame.setLocationRelativeTo(null);
 		simulatorFrame.setVisible(true);
 		
 		//create new JPanel Objects
@@ -41,7 +50,6 @@ public class Simulator {
 		
 		if (!PHYSICALRUN) {
 			mapPanel.add("ACTUAL_MAP", actualMap);
-			
 			virtualRun();
 		}
 		/*else
@@ -53,42 +61,49 @@ public class Simulator {
 		buttonPanel.add(btnFastestPath);
 		
 		// Put the two JPanel into JFrame
-		simulatorFrame.getContentPane().add(buttonPanel, BorderLayout.PAGE_END);
 		simulatorFrame.getContentPane().add(mapPanel, BorderLayout.CENTER);
+		simulatorFrame.getContentPane().add(buttonPanel, BorderLayout.PAGE_END);
+		
 		
 	}
 	
 	private static void virtualRun() {
-		// Create Jbutton to choose map to load into the simulator.
+		/*
+		 *  Create Jbutton to choose map to load into the simulator.
+		 */
 		JButton btnLoadMap = new JButton("Load Arena Map");
 		
-		// Launch dialog to input map file.
+		/*
+		 *  Launch dialog to input map file.
+		 */
 		btnLoadMap.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				JDialog loadMapDialog = new JDialog(simulatorFrame, "Load Map", true);
-                loadMapDialog.setSize(400, 100);
-                loadMapDialog.setLayout(new FlowLayout());
+				JDialog dlLoadMap = new JDialog(simulatorFrame, "Load Map", true);
+				dlLoadMap.setSize(400, 100);
+				dlLoadMap.setLayout(new FlowLayout());
 
                 final JTextField tbMapName = new JTextField(15);
                 JButton btnLoad = new JButton("Load");
-                loadMapDialog.add(new JLabel("File Name: "));
-                loadMapDialog.add(tbMapName);
-                loadMapDialog.add(btnLoad);
-                loadMapDialog.setLocationRelativeTo(simulatorFrame);
-                loadMapDialog.setVisible(true);
+               
                 
                 btnLoad.addMouseListener(new MouseAdapter() {
                 	public void mousePressed(MouseEvent e) {
-                		loadMapDialog.setVisible(false);
+                		dlLoadMap.setVisible(false);
                 		readFile(tbMapName.getText(),actualMap);
-                		mapPanel.add(comp)
+                		CardLayout cl = ((CardLayout) mapPanel.getLayout());
+                		cl.show(mapPanel, "ACTUAL_MAP");
+                		actualMap.repaint();
                 		
                 	}
                 	
                 	
                 });
                
-                
+                dlLoadMap.add(new JLabel("File Name: "));
+                dlLoadMap.add(tbMapName);
+                dlLoadMap.add(btnLoad);
+                dlLoadMap.setLocationRelativeTo(simulatorFrame);
+                dlLoadMap.setVisible(true);
 			}
 			
 		});
