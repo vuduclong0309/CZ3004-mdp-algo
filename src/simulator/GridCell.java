@@ -4,7 +4,7 @@ public class GridCell {
 	private int row;
 	private int col;
 	private boolean obstacle;
-	private boolean isexplored;
+	private boolean explored;
 	
 	public GridCell(int row, int col) {
 		this.row = row;
@@ -35,12 +35,12 @@ public class GridCell {
 		this.obstacle = obstacle;
 	}
 
-	public boolean isIsexplored() {
-		return isexplored;
+	public boolean isExplored() {
+		return explored;
 	}
 
-	public void setIsexplored(boolean isexplored) {
-		this.isexplored = isexplored;
+	public void setExplored(boolean explored) {
+		this.explored = explored;
 	}
 	
 	
